@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Dareen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #FDFFF5; 
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #text-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .text-line {
+            white-space: nowrap;
+            font-size: 4vh;
+            font-weight: bold;
+            color: #8B0000;
+            position: absolute;
+            width: max-content;
+            transform-origin: left;
+            animation: scrollText 250s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } 
+        }
+    </style>
+</head>
+<body>
+    <div id="text-container"></div>
+    
+    <script>
+        class TextAnimator {
+            constructor() {
+                this.phrases = [
+                    "I love you Dareen",
+                    "Gleb loves Dareen",
+                    "Dareen is the best",
+                    "Dareen my sweetest",
+                    "Dareen my sunshine",
+                    "Dareen warms my heart",
+                    "My precious Dareen",
+                    "Beautiful Dareen",
+                    "Dareen my dream",
+                    "Dareen is magical",
+                    "My angel Dareen",
+                    "Dareen makes me smile"
+                ];
+                
+                this.container = document.getElementById("text-container");
+                this.lineHeight = this.calculateLineHeight();
+                this.numLines = this.calculateNumLines();
+                this.allPhrases = this.generatePhrases();
+            }
+
+            calculateLineHeight() {
+                return window.innerHeight / 15;
+            }
+
+            calculateNumLines() {
+                return Math.ceil(window.innerHeight / this.lineHeight);
+            }
+
+            generatePhrases() {
+                return this.phrases.join(", ") + ", ";
+            }
+
+            createTextLine(index) {
+                const line = document.createElement("div");
+                line.className = "text-line";
+                
+                const lineText = this.generateLineText();
+                line.textContent = lineText + lineText;
+                
+                this.setLineProperties(line, index);
+                
+                return line;
+            }
+
+            generateLineText() {
+                let result = "";
+                const REPEAT_COUNT = 20;
+                
+                for (let i = 0; i < REPEAT_COUNT; i++) {
+                    result += this.allPhrases;
+                }
+                return result;
+            }
+
+            setLineProperties(line, index) {
+                line.style.top = (index * this.lineHeight) + "px";
+                line.style.animationDelay = `-${Math.random() * 5}s`;
+                
+                if (index % 2 === 1) {
+                    line.style.color = "#00008B";
+                }
+            }
+
+            initialize() {
+                for (let i = 0; i < this.numLines; i++) {
+                    const line = this.createTextLine(i);
+                    this.container.appendChild(line);
+                }
+            }
+        }
+
+        const animator = new TextAnimator();
+        animator.initialize();
+    </script>
+</body>
+</html>
